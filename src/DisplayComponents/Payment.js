@@ -24,29 +24,26 @@ function Payment(props) {
     const totalAmount = data.reduce((total, product) => total + calculateTotalPrice(product), 0);
     const handlePayToConfirm = async () => {
         try {
-            // Get the user's email from wherever it is stored in your frontend
-            const userEmail = email;  // Replace with actual user email
+            // Getting user's email from wherever it is stored in your frontend
+            const userEmail = email;  
 
-            // Make a POST request to your Flask backend
+            // Making a POST request to Flask backend
             const response = await axios.post('http://localhost:5000/confirm-payment', {
                 user_email: userEmail,
-                cartData: data,  // Assuming data contains the cart information
-                totalAmount: totalAmount,  // Assuming totalAmount is available in your component
-            });
-            if (response.ok){
+                cartData: data,  
+                totalAmount: totalAmount,              });
+            if (response.status === 200){
                 console.log("Payment Confirmed")
                 navigate("/EndPage")
             }else {
                 console.error("error :", response.data.message)
             }
 
-            // Handle the response as needed
-            console.log(response.data.message);  // Log success message or handle accordingly
+            console.log(response.data.message);  
 
-            // Perform other actions as needed
+           
         } catch (error) {
             console.error('Error confirming order:', error);
-            // Handle errors as needed
         }
     };
 
